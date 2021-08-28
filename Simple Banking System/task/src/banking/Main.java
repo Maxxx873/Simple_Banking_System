@@ -10,9 +10,7 @@ public class Main {
 
         Scanner scanner = new Scanner(System.in);
         for (;;) {
-            System.out.println("1. Create an account");
-            System.out.println("2. Log into account");
-            System.out.println("0. Exit");
+            bank.showStartMenu();
             switch (scanner.nextInt()) {
                 case 1:
                     Account account = new Account();
@@ -30,7 +28,12 @@ public class Main {
                     break;
                 case 2:
                     System.out.println("Enter your card number:");
-                    scanner.nextLine();
+
+                    for (Account account1: bank.getAccounts()) {
+                        if (account1.getCardNumber().equals(scanner.nextLine())) {
+                            System.out.println("You have successfully logged in!");
+                        }
+                    }
                     break;
                 case 0:
                     System.out.println(bank.getAccounts());

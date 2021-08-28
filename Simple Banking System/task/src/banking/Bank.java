@@ -20,11 +20,18 @@ public class Bank {
 
     public boolean addAccount (Account account) {
         for (Account acc:this.accounts) {
-           if (acc.cardNumber.equals(account.cardNumber)) {
+           if (acc.getCardNumber().equals(account.getCardNumber())) {
                return false;
            }
         }
         this.accounts.add(account);
         return true;
+    }
+
+    public void showStartMenu ()  {
+        System.out.println("1. Create an account");
+        System.out.println("2. Log into account");
+        System.out.println("0. Exit");
+        System.out.println();
     }
 }

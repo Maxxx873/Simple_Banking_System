@@ -4,10 +4,10 @@ import java.util.Random;
 
 public class Account {
     final String BIN = "400000";
-    String accountIdentifier;
-    int checksum;
-    String cardNumber;
-    String pinCode;
+    private String accountIdentifier;
+    private int checksum;
+    private String cardNumber;
+    private String pinCode;
 
     public String getAccountIdentifier() {
         return accountIdentifier;

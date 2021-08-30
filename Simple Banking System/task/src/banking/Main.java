@@ -1,42 +1,28 @@
 package banking;
 
+import banking.entitie.Account;
+import banking.entitie.Bank;
+
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
 
-
         Bank bank = new Bank();
-
         Scanner scanner = new Scanner(System.in);
+
         for (;;) {
             bank.showStartMenu();
-            switch (scanner.nextInt()) {
+            int menu = scanner.nextInt();
+            switch (menu) {
                 case 1:
-                    Account account = new Account();
-                    if (bank.getAccounts().size() == 0) {
-                        bank.addAccount(account);
-                    } else {
-                        while (!bank.addAccount(account)) {
-                            bank.addAccount(account);
-                        }
-                    }
-                    System.out.println("Your card has been created");
-                    account.print();
-                    System.out.println();
-
+                    bank.newAccount();
                     break;
                 case 2:
-                    System.out.println("Enter your card number:");
-
-                    for (Account account1: bank.getAccounts()) {
-                        if (account1.getCardNumber().equals(scanner.nextLine())) {
-                            System.out.println("You have successfully logged in!");
-                        }
-                    }
+                    bank.loggingIn();
                     break;
                 case 0:
-                    System.out.println(bank.getAccounts());
+                    System.out.println("Bye!");
                     return;
 
             }

@@ -1,5 +1,6 @@
-package banking;
+package banking.entitie;
 
+import java.math.BigDecimal;
 import java.util.Random;
 
 public class Account {
@@ -8,6 +9,25 @@ public class Account {
     private int checksum;
     private String cardNumber;
     private String pinCode;
+    private BigDecimal balance;
+
+    public BigDecimal getBalance() {
+        return balance;
+    }
+
+    public void showBalance () {
+        System.out.printf("Balance: %s", this.balance.toString());
+        System.out.println();
+    }
+
+    public void logOut () {
+        System.out.println("You have successfully logged out!");
+        System.out.println();
+    }
+
+    public void setBalance( BigDecimal balance ) {
+        this.balance = balance;
+    }
 
     public String getAccountIdentifier() {
         return accountIdentifier;
@@ -50,7 +70,8 @@ public class Account {
         this.pinCode = String.valueOf(random.nextInt(upperPin - lowerPin + 1) + lowerPin);
         this.accountIdentifier = String.valueOf(random.nextInt(upperId - lowerId + 1) + lowerId);
         this.checksum =random.nextInt(10);
-        this.cardNumber = this.BIN + this.accountIdentifier + String.valueOf(this.checksum);
+        this.cardNumber = this.BIN + this.accountIdentifier + this.checksum;
+        this.balance = BigDecimal.valueOf(0);
 
     }
 
@@ -59,6 +80,6 @@ public class Account {
         System.out.println(this.cardNumber);
         System.out.println("Your card PIN:");
         System.out.println(this.pinCode);
-    };
+    }
 
 }

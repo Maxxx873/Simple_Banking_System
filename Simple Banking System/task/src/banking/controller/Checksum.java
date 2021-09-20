@@ -14,7 +14,6 @@ public class Checksum {
                   checksum += multiply - 9;
                 } else {
                     checksum += multiply;
-
                 }
             }
         }

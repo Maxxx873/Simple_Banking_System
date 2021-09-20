@@ -1,33 +1,42 @@
 package banking;
 
-import banking.entitie.Account;
+import banking.controller.SQLiteDatabase;
 import banking.entitie.Bank;
 
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        if (args[0].equals("-fileName")) {
 
-        Bank bank = new Bank();
-        Scanner scanner = new Scanner(System.in);
+            SQLiteDatabase sqLiteDatabase = new SQLiteDatabase(args[1]);
+            sqLiteDatabase.connectionToDatabase();
 
-        for (;;) {
-            bank.showStartMenu();
-            int menu = scanner.nextInt();
-            switch (menu) {
-                case 1:
-                    bank.newAccount();
-                    break;
-                case 2:
-                    bank.loggingIn();
-                    break;
-                case 0:
-                    System.out.println("Bye!");
-                    return;
+            Bank bank = new Bank();
+            Scanner scanner = new Scanner(System.in);
+
+            for (;;) {
+                bank.showStartMenu();
+                int menu = scanner.nextInt();
+                switch (menu) {
+                    case 1:
+                        bank.newAccount(sqLiteDatabase);
+                        break;
+                    case 2:
+                        if (bank.loggingIn() == 0) {
+                            System.out.println("Bye!");
+                            sqLiteDatabase.closeConnection();
+                            return;
+                        }
+                        break;
+                    case 0:
+                        System.out.println("Bye!");
+                        sqLiteDatabase.closeConnection();
+                        return;
+
+                }
 
             }
-
         }
-
     }
 }

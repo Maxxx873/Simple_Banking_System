@@ -1,5 +1,7 @@
 package banking.entitie;
 
+import banking.controller.SQLiteDatabase;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -19,20 +21,21 @@ public class Bank {
         this.accounts = new ArrayList<>();
     }
 
-    public void newAccount() {
+    public void newAccount(SQLiteDatabase sqLiteDatabase) {
 
         Account account = new Account();
         while (this.accounts.indexOf(account) > 0) {
             account = new Account();
         }
         this.accounts.add(account);
+        sqLiteDatabase.addToDatabase(account.getCard());
         System.out.println("Your card has been created");
         account.print();
         System.out.println();
 
     }
 
-    public void loggingIn() {
+    public int loggingIn() {
         Scanner scanner = new Scanner(System.in);
 
         boolean successfullyLogged = false;
@@ -56,19 +59,17 @@ public class Bank {
 
 
             for (;;) {
-                this.showStartMenu();
+                this.showAccountMenu();
                 switch (scanner.nextInt()) {
                     case 1:
                         account.showBalance();
                         break;
                     case 2:
                         account.logOut();
-                        break;
+                        return 1;
                     case 0:
-                        successfullyLogged = false;
-                        break;
+                        return 0;
                 }
-                if (!successfullyLogged) {break;}
             }
 
         } else {
@@ -76,7 +77,7 @@ public class Bank {
             System.out.println("Wrong card number or PIN!");
             System.out.println();
         }
-
+    return 1;
     }
 
     public void showStartMenu ()  {

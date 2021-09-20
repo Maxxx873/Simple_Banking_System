@@ -4,12 +4,9 @@ import java.math.BigDecimal;
 import java.util.Random;
 
 public class Account {
-    final String BIN = "400000";
     private String accountIdentifier;
-    private int checksum;
-    private String cardNumber;
-    private String pinCode;
     private BigDecimal balance;
+    private Card card;
 
     public BigDecimal getBalance() {
         return balance;
@@ -37,49 +34,30 @@ public class Account {
         this.accountIdentifier = accountIdentifier;
     }
 
-    public int getChecksum() {
-        return checksum;
+    public Card getCard() {
+        return card;
     }
 
-    public void setChecksum( int checksum ) {
-        this.checksum = checksum;
-    }
-
-    public String getCardNumber() {
-        return cardNumber;
-    }
-
-    public void setCardNumber( String cardNumber ) {
-        this.cardNumber = cardNumber;
-    }
-
-    public String getPinCode() {
-        return pinCode;
-    }
-
-    public void setPinCode( String pinCode ) {
-        this.pinCode = pinCode;
+    public void setCard( Card card ) {
+        this.card = card;
     }
 
     public Account() {
-        int upperPin = 9999;
-        int lowerPin = 1000;
+
         int upperId = 999999999;
         int lowerId = 100000000;
         Random random = new Random();
-        this.pinCode = String.valueOf(random.nextInt(upperPin - lowerPin + 1) + lowerPin);
-        this.accountIdentifier = String.valueOf(random.nextInt(upperId - lowerId + 1) + lowerId);
-        this.checksum =random.nextInt(10);
-        this.cardNumber = this.BIN + this.accountIdentifier + this.checksum;
+        //this.accountIdentifier = String.valueOf(random.nextInt(upperId - lowerId + 1) + lowerId);
         this.balance = BigDecimal.valueOf(0);
+        this.card = new Card();
 
     }
 
     public void print() {
         System.out.println("Your card number:");
-        System.out.println(this.cardNumber);
+        System.out.println(this.card.getCardNumber());
         System.out.println("Your card PIN:");
-        System.out.println(this.pinCode);
+        System.out.println(this.card.getPinCode());
     }
 
 }

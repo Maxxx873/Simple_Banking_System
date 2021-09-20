@@ -44,7 +44,7 @@ public class Bank {
         Account account = new Account();
 
         for (Account a: this.getAccounts()) {
-            if (a.getCardNumber().equals(cardNumber) && a.getPinCode().equals(pinCode)) {
+            if (a.getCard().getCardNumber().equals(cardNumber) && a.getCard().getPinCode().equals(pinCode)) {
                 successfullyLogged = true;
                 account = a;
                 break;
@@ -56,7 +56,7 @@ public class Bank {
 
 
             for (;;) {
-                this.showAccountMenu();
+                this.showStartMenu();
                 switch (scanner.nextInt()) {
                     case 1:
                         account.showBalance();

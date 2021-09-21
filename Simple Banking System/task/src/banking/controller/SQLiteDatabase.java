@@ -1,11 +1,11 @@
 package banking.controller;
 
+import banking.entitie.Account;
 import banking.entitie.Card;
 import org.sqlite.SQLiteDataSource;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.util.ArrayList;
 
 public class SQLiteDatabase {
 
@@ -63,12 +63,89 @@ public class SQLiteDatabase {
     }
 
     public void closeConnection () {
-
             try {
                 this.connectionToDatabase().close();
             } catch (SQLException se) {
                 se.printStackTrace();
             }
+
+    }
+
+    public ArrayList<Account> selectAllAccounts() {
+
+        ArrayList<Account> accounts = new ArrayList<>();
+
+        try (Connection conn = this.connectionToDatabase()) {
+            String sql = "SELECT * FROM card";
+            try (Statement statement = conn.createStatement();
+                 ResultSet rs = statement.executeQuery(sql)
+            ) {
+                while (rs.next()) {
+                    Account account = new Account();
+                    Card card = new Card();
+                    card.setCardNumber(rs.getString("number"));
+                    card.setPinCode(rs.getString("pin"));
+                    card.setBalance(rs.getInt("balance"));
+                    account.setCard(card);
+                    accounts.add(account);
+                }
+                return accounts;
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return accounts;
+    }
+
+    public void updateBalance (Card card) {
+
+        try (Connection conn = this.connectionToDatabase()) {
+            String sql = "UPDATE card SET balance = ? WHERE number = ? AND pin = ?";
+            try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+               preparedStatement.setInt(1, card.getBalance());
+               preparedStatement.setString(2, card.getCardNumber());
+               preparedStatement.setString(3, card.getPinCode());
+               preparedStatement.executeUpdate();
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
+    public void transfer (Card cardFrom, Card cardTo) {
+
+        try (Connection conn = this.connectionToDatabase()) {
+            conn.setAutoCommit(false);
+            updateBalance(cardFrom);
+            updateBalance(cardTo);
+            conn.commit();
+            conn.setAutoCommit(true);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
+    public void deleteCard (Card card) {
+
+        try (Connection conn = this.connectionToDatabase()) {
+            String sql = "DELETE FROM card WHERE number = ?";
+            try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+                preparedStatement.setString(1, card.getCardNumber());
+                preparedStatement.executeUpdate();
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
 
     }
 

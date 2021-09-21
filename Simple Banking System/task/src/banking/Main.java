@@ -1,7 +1,8 @@
 package banking;
 
+
 import banking.controller.SQLiteDatabase;
-import banking.entitie.Bank;
+import banking.controller.Bank;
 
 import java.util.Scanner;
 
@@ -11,8 +12,7 @@ public class Main {
 
             SQLiteDatabase sqLiteDatabase = new SQLiteDatabase(args[1]);
             sqLiteDatabase.connectionToDatabase();
-
-            Bank bank = new Bank();
+            Bank bank = new Bank(sqLiteDatabase);
             Scanner scanner = new Scanner(System.in);
 
             for (;;) {
@@ -20,7 +20,7 @@ public class Main {
                 int menu = scanner.nextInt();
                 switch (menu) {
                     case 1:
-                        bank.newAccount(sqLiteDatabase);
+                        bank.newAccount();
                         break;
                     case 2:
                         if (bank.loggingIn() == 0) {

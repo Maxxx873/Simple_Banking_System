@@ -1,4 +1,4 @@
-# hyperskill-Simple_Banking_System
+# hyperskill-Simple-Banking-System
 
 Working with the SQLite base on the example of a simple banking system. Using the Luhn algorithm to validate card numbers.
 
